@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+typedef long long int integer;
+int CCL(int num){
+    int count=0;
+    while(true){
+        count++;
+        if(num==1)break;
+        if(num%2==1){
+            num=(3*num)+1;
+        }
+        else{
+            num/=2;
+        }
+    }
+    return count;
+}
+int main(){
+    integer i,j,f;
+    while(scanf ("%lld %lld",&i, &j) != EOF){
+        int max_len=0;
+        integer num1=i,num2=j;
+        cout<<i<<" "<<j<<" ";
+
+        if(i>j){
+            swap(i,j);
+        }
+        for(int a=i;a<=j;a++){
+            f=CCL(a);
+            if(f>=max_len){
+                max_len=f;
+            }
+        }
+        cout<<max_len<<endl;
+    }
+    return 0;
+}
