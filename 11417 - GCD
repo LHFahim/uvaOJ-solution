@@ -1,0 +1,26 @@
+#include <iostream>
+#define FastAsRocket ios::sync_with_stdio(false);cin.tie(0);cout.tie(0)
+#define ll long long int
+using namespace std;
+
+int get_gcd(int a, int b){
+    return b==0? a:get_gcd(b,a%b);
+}
+int main(){
+    FastAsRocket;
+    //ll t; cin>>t;
+    int cnt;
+    while(true){
+        int num; cin>>num;
+        if(num == 0)break;
+        cnt = 0;
+        for(int i=1; i<num; i++){
+            for(int j=i+1; j<=num; j++){
+                cnt += get_gcd(i,j);
+            }
+        }
+        cout<<cnt<<endl;
+    }
+
+    return 0;
+}
