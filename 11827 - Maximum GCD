@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <sstream>
+using namespace std;
+int callgcd(int a, int b){
+    return b==0? a:callgcd(b,a%b);
+}
+int main()
+{
+    int t; cin>>t;
+    getchar();
+
+    while(t--){
+        string s; getline(cin,s);
+        stringstream cnvt(s);
+
+        int cnt = 0, in;
+        vector <int> nums;
+        while(cnvt>>in){
+            nums.push_back(in); cnt++;
+        }
+        
+        int ans = 0;
+        for(int i=0; i<cnt; i++){
+            for(int j=i+1; j<cnt; j++){
+                ans = max(ans,callgcd(nums[i],nums[j]));
+            }
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
