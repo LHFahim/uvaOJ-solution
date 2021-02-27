@@ -1,0 +1,80 @@
+//https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=524
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define endl '\n'
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef long long int ll;
+typedef tree< ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update > ordered_set;
+/// cout<<*X.find_by_order(1)<<endl; // finds the kth element
+/// cout<<X.order_of_key(-5)<<endl;  // number of items in a set that are strictly smaller than our item
+
+const int MX = 1e7+123;
+bitset <MX> isPrime;
+vector <int> primes;
+
+void sieve(int n){
+    n += 10;
+    for(int i=3; i<=n; i+=2 )isPrime[i] = 1;
+    isPrime[2] = 1;
+
+    int lim = sqrt(n);
+    for (int i=3; i<=lim; i+=2){
+        if(isPrime[i] == 1){
+            for(int j=i*i; j<=n; j+=(i + i)){
+                isPrime[j] = 0;
+            }
+        }
+    }
+
+
+    primes.push_back(2);
+    for(int i=3; i<=n; i+=2){
+        if(isPrime[i] == 1 )primes.push_back(i);
+    }
+}
+
+vector <ll> factorization(ll n){
+    vector <ll> vec;
+
+    for(auto p : primes){
+        if(1LL*p*p > n)break;
+
+        if(n%p == 0){
+            while(n%p == 0){
+                vec.push_back(p);
+                n /= p;
+            }
+        }
+    }
+    if(n > 1)vec.push_back(n);
+    return vec;
+}
+
+int main()
+{
+    optimize();
+    sieve(1e5);
+
+    int in;
+    while(cin>>in){
+        if(in == 0)break;
+
+        vector <ll> ans = factorization(abs(in));
+
+        reverse(ans.begin(),ans.end());
+        if(in < 0)ans.push_back(-1);
+        reverse(ans.begin(),ans.end());
+
+        cout<<in<<" = "<<ans[0];
+        for(int i=1; i<ans.size(); i++)cout<<" x "<<ans[i];
+        cout<<endl;
+    }
+
+    return 0;
+}
