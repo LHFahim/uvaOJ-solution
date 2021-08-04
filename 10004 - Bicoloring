@@ -1,0 +1,73 @@
+//https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=945
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define endl '\n'
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+#define MOD 1e9+7
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef long long int ll;
+typedef tree< ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update > ordered_set;
+/// cout<<*X.find_by_order(1)<<endl; // finds the kth element
+/// cout<<X.order_of_key(-5)<<endl;  // number of items in a set that are strictly smaller than our item
+
+const int mx = 205;
+vector <int> adj[mx];
+int color[mx];
+
+bool BFS(int source){
+
+    memset(color, -1, sizeof(color));
+    color[source] = 1;
+
+    queue <int> q;
+    q.push(source);
+
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+
+        int currentCol;
+        if(color[u] == 1)currentCol = 2;
+        else currentCol = 1;
+
+        for(auto v : adj[u]){
+            if(color[v] == -1){
+                color[v] = currentCol;
+                q.push(v);
+            }
+            else if(color[v] == color[u])return 0;
+        }
+    }
+    return 1;
+}
+
+int main()
+{
+    optimize();
+
+
+    int n;
+
+    while(cin>>n){
+        if(n == 0)break;
+        for(int i=0; i<mx; i++)adj[i].clear();
+
+
+        int m; cin>>m;
+
+        for(int i=1; i<=m; i++){
+            int u,v; cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        if (BFS(0) == 1)cout<<"BICOLORABLE."<<endl;
+        else cout<<"NOT BICOLORABLE."<<endl;
+    }
+
+
+    return 0;
+}
