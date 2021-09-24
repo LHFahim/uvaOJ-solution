@@ -1,0 +1,55 @@
+//https://onlinejudge.org/index.php?option=onlinejudge&Itemid=99999999&page=show_problem&category=0&problem=2078&mosmsg=Submission+received+with+ID+26803704
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define endl '\n'
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+#define MOD 1e9+7
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+typedef long long int ll;
+typedef tree< ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update > ordered_set;
+/// cout<<*X.find_by_order(1)<<endl; // finds the kth element
+/// cout<<X.order_of_key(-5)<<endl;  // number of items in a set that are strictly smaller than our item
+
+int dx[] = {0, 0, +1, -1, +1, +1, -1, -1};
+int dy[] = {+1, -1, 0, 0, +1, -1, +1, -1};
+
+const int mx = 1e4 + 10;
+int coins[23];
+ll dp[23][mx];
+
+ll solve(ll idx, ll n){
+
+    if(idx == 21 || n == 0)return (n == 0);
+    if(dp[idx][n] != -1)return dp[idx][n];
+
+    ll ret = 0;
+    for(int i=0; i<=n; i++){
+        if( (n - (coins[idx] * i)) >= 0)ret += solve( idx+1,(n - (coins[idx] * i)));
+        else break;
+    }
+
+    return dp[idx][n] = ret;
+}
+
+int main(){
+    optimize();
+
+    for(int i=1; i<=21; i++){
+        coins[i-1] = i*i*i;
+    }
+
+
+    memset(dp, -1, sizeof(dp));
+    ll n;
+
+    while(cin>>n){
+        if(n == 0)break;
+
+        cout<<solve(0,n)<<endl;
+    }
+    return 0;
+}
